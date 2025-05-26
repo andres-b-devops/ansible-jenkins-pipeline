@@ -6,6 +6,11 @@ pipeline {
     }
   stages {
     stage('Checkout'){ steps { checkout scm } }
+    stage('Install Ansible collections'){
+            steps {
+                sh 'ansible-galaxy collection install -r ansible/requirements.yml'
+            }
+    }
     stage('Run Ansible') {
       steps {
         sshagent(credentials: ['ansible-ec2-key']) {
