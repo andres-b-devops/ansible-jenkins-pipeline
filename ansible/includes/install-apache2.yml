@@ -1,0 +1,15 @@
+- name: Actualizar el cache de paqutes.
+  apt:
+    update_cache: yes
+  when: is_ubuntu
+- name: Instalar Apache2
+  apt:
+    name: apache2
+    state: present
+  when: is_ubuntu
+- name: Verificar que apache este corriendo
+  service:
+    name: apache2
+    state: started
+    enabled: yes
+  when: is_ubuntu

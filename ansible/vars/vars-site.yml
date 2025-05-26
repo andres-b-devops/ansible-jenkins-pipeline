@@ -1,0 +1,3 @@
+site_dir: /var/www/html/ansible_site
+site_name: ansible_site
+webmaster_email: webmaster@miwebexample.net

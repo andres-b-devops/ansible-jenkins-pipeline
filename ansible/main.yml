@@ -1,0 +1,59 @@
+# definir el alcance de los hosts
+- name: Deployment de un sitio estatico
+  hosts: all
+  become: yes
+  pre_tasks:
+    - name: Verificar si el OS es Ubuntu
+      set_fact:
+        is_ubuntu: "{{ ansible_distribution == 'Ubuntu' }}"
+  vars_files:
+    - vars/vars-site.yml
+  tasks:
+    - name: Instalar servicio Apache
+      include_tasks: includes/install-apache2.yml
+    - name: crear directorio para el sitio
+      file:
+        path: "{{ site_dir }}"
+        state: directory
+        owner: www-data
+        group: www-data
+      when: is_ubuntu
+    - name: copiar index.html al directorio del sitio
+      copy:
+        src: files/index.html
+        dest: "{{ site_dir }}"
+        owner: www-data
+        group: www-data
+        mode: '0644'
+      when: is_ubuntu
+    - name: Configuracion del sitio apache
+      template:
+        src: templates/ansible_site.conf.j2
+        dest: /etc/apache2/sites-available/ansible_site.conf
+      notify:
+        - Reload Apache
+      when: is_ubuntu
+    - name: Activa el nuevo sitio
+      command: a2ensite ansible_site.conf
+      notify:
+        - Reload Apache
+      when: is_ubuntu
+    - name: Deshabilita el sitio default
+      command: a2dissite 000-default.conf
+      notify:
+        - Reload Apache
+      when: is_ubuntu
+    - name: Cambiar el e-mail del webmaster
+      lineinfile:
+        path: /etc/apache2/sites-available/000-default.conf
+        regexp: 'ServerAdmin webmaster@localhost'
+        line: '	ServerAdmin {{ webmaster_email }}'
+      when: is_ubuntu
+      notify:
+      - Reload Apache
+  handlers:
+    - name: Reload Apache
+      service:
+        name: apache2
+        state: reloaded
+      when: is_ubuntu
