@@ -11,20 +11,6 @@ pipeline {
                 sh 'ansible-galaxy collection install -r ansible/requirements.yml'
             }
     }
-    // stage('Run Ansible') {
-    //   steps {
-    //     sshagent(credentials: ['ansible-ec2-key']) {
-    //       sh '''
-    //           # Configurar variables de entorno para Ansible
-    //           export ANSIBLE_HOST_KEY_CHECKING=False
-    //           export ANSIBLE_TIMEOUT=30
-              
-    //           # Ejecutar Ansible
-    //           ansible-playbook -i ansible/inventory.ini --private-key=${ANSIBLE_PRIVATE_KEY} ansible/main.yml -v
-    //       '''
-    //     }
-    //   }
-    // }
     stage('Run Ansible') {
       steps {
         // Obtiene la ruta de la clave y el usuario
