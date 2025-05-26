@@ -12,7 +12,7 @@ pipeline {
               export ANSIBLE_TIMEOUT=30
               
               # Copiar la clave SSH a una ubicación temporal
-              cp $SSH_AUTH_SOCK /tmp/ec2-key.pem || echo "SSH_AUTH_SOCK not available, using sshagent"
+              cp $SSH_AUTH_SOCK /tmp/ansible-ec2-key.pem || echo "SSH_AUTH_SOCK not available, using sshagent"
               
               # Ejecutar Ansible
               ansible-playbook -i ansible/inventory.ini ansible/main.yml -v
