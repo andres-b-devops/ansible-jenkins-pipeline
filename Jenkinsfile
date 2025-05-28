@@ -40,17 +40,17 @@ pipeline {
             }
         }
     }
-    post {
-        always {
-            script {
-                // Notificar a GitHub el estado del pipeline
-                githubNotify(
-                    context: 'continuous-integration/jenkins',
-                    description: 'Ansible Pipeline',
-                    status: currentBuild.currentResult,
-                    targetUrl: "${env.BUILD_URL}"
-                )
-            }
-        }
-    }
+    // post {
+    //     always {
+    //         script {
+    //             // Notificar a GitHub el estado del pipeline
+    //             githubNotify(
+    //                 context: 'continuous-integration/jenkins',
+    //                 description: 'Ansible Pipeline',
+    //                 status: currentBuild.currentResult,
+    //                 targetUrl: "${env.BUILD_URL}"
+    //             )
+    //         }
+    //     }
+    // }
 }
