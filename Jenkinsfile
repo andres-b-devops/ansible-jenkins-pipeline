@@ -20,7 +20,7 @@ pipeline {
               export ANSIBLE_HOST_KEY_CHECKING=False
               export ANSIBLE_TIMEOUT=30
               export ANSIBLE_SSH_PRIVATE_KEY_FILE=$SSH_KEY
-              ansible-playbook -i ${INVENTORY} ansible/main.yml -u $SSH_USER -v
+              ansible-playbook -i ${INVENTORY} ansible/main.yml -u $SSH_USER
             '''
           }
         }
