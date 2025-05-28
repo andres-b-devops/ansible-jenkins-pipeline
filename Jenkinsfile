@@ -47,7 +47,8 @@ pipeline {
                 githubNotify(
                     context: 'continuous-integration/jenkins',
                     description: 'Ansible Pipeline',
-                    status: currentBuild.currentResult
+                    status: currentBuild.currentResult,
+                    targetUrl: "${env.BUILD_URL}"
                 )
             }
         }
